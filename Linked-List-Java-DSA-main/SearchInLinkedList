@@ -1,0 +1,36 @@
+class Node {
+    int data;
+    Node next;
+    Node(int x) {
+        data = x;
+        next = null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Node head = new Node(5);
+        head.next = new Node(10);
+        head.next.next = new Node(15);
+        head.next.next.next = new Node(20);
+
+        Node curr = head;
+        int pos = 1;
+        int key = 15;
+        boolean found = false;
+        
+        while (curr != null) {
+            if (curr.data == key) {
+                System.out.println("Position of " + key + ": " + pos);
+                found = true;
+                break;
+            }
+            pos++;
+            curr = curr.next;
+        }
+        
+        if (!found) {
+            System.out.println(key + " not found in the list");
+        }
+    }
+}

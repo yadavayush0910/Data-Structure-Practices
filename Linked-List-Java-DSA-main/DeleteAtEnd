@@ -1,0 +1,30 @@
+class Node{
+    int data;
+    Node next;
+    Node(int x){
+        data=x;
+        next=null;
+    }
+}
+class Main {
+    public static void main(String[] args) {
+        Node head=new Node(10);
+        Node temp1=new Node(20);
+        Node temp2=new Node(30);
+        head.next=temp1;
+        temp1.next=temp2;
+        Node newHead=new Node(5);
+        newHead.next=head;
+        head=newHead;
+        Node curr=head;
+        while(curr.next.next!=null){
+            curr=curr.next;
+        }
+        curr.next=null;
+         Node curr1=head;
+        while(curr1!=null){
+            System.out.print(curr1.data+" ");
+            curr1=curr1.next;
+        }
+    }
+}

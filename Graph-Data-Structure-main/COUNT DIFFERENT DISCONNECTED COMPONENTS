@@ -1,0 +1,59 @@
+import java.util.*;
+
+public class Graph {
+    private Map<Integer, List<Integer>> adjList;
+    
+    // Constructor to initialize the graph
+    public Graph() {
+        adjList = new HashMap<>();
+    }
+
+    // Method to add an edge
+    public void addEdge(int u, int v) {
+        adjList.putIfAbsent(u, new ArrayList<>());
+        adjList.putIfAbsent(v, new ArrayList<>());
+        adjList.get(u).add(v);
+        adjList.get(v).add(u);  // Since it's an undirected graph
+    }
+
+    // DFS method to visit all connected nodes
+    private void dfs(int node, boolean[] visited) {
+        visited[node] = true;
+        // Visit all the neighbors
+        for (int neighbor : adjList.getOrDefault(node, new ArrayList<>())) {
+            if (!visited[neighbor]) {
+                dfs(neighbor, visited);
+            }
+        }
+    }
+
+    // Method to count the number of disconnected components
+    public int countComponents(int n) {
+        boolean[] visited = new boolean[n];
+        int componentCount = 0;
+
+        // Iterate through all nodes
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(i, visited);  // Start DFS if the node is unvisited
+                componentCount++;  // A new component is found
+            }
+        }
+        
+        return componentCount;
+    }
+
+    public static void main(String[] args) {
+        Graph graph = new Graph();
+
+        // Example: Adding edges to the graph
+        graph.addEdge(0, 1);
+        graph.addEdge(2, 3);
+        graph.addEdge(4, 5);
+
+        int n = 7; // Number of nodes (indexed from 0 to n-1)
+        
+        // Count the disconnected components
+        System.out.println("Number of disconnected components: " + graph.countComponents(n));
+    }
+}
