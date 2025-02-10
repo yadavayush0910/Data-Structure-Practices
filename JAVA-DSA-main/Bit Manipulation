@@ -1,0 +1,97 @@
+import java.util.*;
+
+class Main {
+    // Method 1: Naive approach
+    public static int countsetBits(int num) {
+        int count = 0;
+        while (num > 0) {
+            if (num % 2 != 0) { // If the last bit is 1, increment count
+                count++;
+            }
+            num = num >> 1; // Right shift to process the next bit
+        }
+        return count;
+    }
+
+    // Method 2: Brian Kernighan's algorithm (Optimized)
+    public static int countsetBits2(int num) {
+        int count = 0;
+        while (num > 0) {
+            num = num & (num - 1); // Removes the rightmost set bit
+            count++;
+        }
+        return count;
+    }
+
+    // Check if the k-th bit is set
+    public static boolean checkKthBit(int num, int k) {
+        return ((num & (1 << (k - 1))) != 0);
+    }
+
+    // Check if the number is power of 2 (Bitwise method)
+    public static boolean powerOf2(int num) {
+        return (num != 0) && ((num & (num - 1)) == 0);
+    }
+
+    // Check if the number is power of 2 (Iterative method)
+    public static boolean powerOf2Iterative(int num) {
+        if (num == 0) return false;
+        while (num != 1) {
+            if (num % 2 != 0) return false;
+            num /= 2;
+        }
+        return true;
+    }
+
+    // Find the only odd-occurring element in an array (XOR approach)
+    public static int oddOccuring(int arr[]) {
+        int res = 0;
+        for (int i = 0; i < arr.length; i++) {
+            res = res ^ arr[i];
+        }
+        return res;
+    }
+
+    // Print all subsets (Power Set) of a given string
+    public static void PowerSet(String str) {
+        int n = str.length();
+        for (int i = 0; i < (1 << n); i++) {  // (1 << n) is 2^n
+            for (int j = 0; j < n; j++) {
+                if ((i & (1 << j)) != 0) {  // Fix precedence issue
+                    System.out.print(str.charAt(j));
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public static void main(String[] args) {
+        int x = 3;  // Binary:  00000011
+        int y = 32; // Binary: 00100000
+
+        System.out.println("Bitwise AND :" + (x & y));  // 3 & 32 = 0
+        System.out.println("Bitwise OR :" + (x | y));   // 3 | 32 = 35
+        System.out.println("Bitwise XOR :" + (x ^ y));  // 3 ^ 32 = 35
+        System.out.println("Bitwise NOT :" + (~x));     // ~3 = -4
+        System.out.println("Bitwise Left shift :" + (x << 1));  // Left shift
+        System.out.println("Bitwise Right shift :" + (y >> 1)); // Right shift
+
+        // Count Set Bits
+        System.out.println("Count Set Bits :" + (countsetBits(13) + countsetBits2(13)));
+
+        // Check if a specific bit is set
+        System.out.println("Check Kth Bit :" + checkKthBit(5, 1));
+
+        // Check if a number is a power of 2
+        System.out.println("Check power of 2 (Bitwise) :" + powerOf2(5));
+        System.out.println("Check power of 2 (Iterative) :" + powerOf2Iterative(8));
+
+        // Find only odd occurring element
+        int arr[] = {4, 3, 4, 4, 4, 5, 5};
+        System.out.println("Only Odd Occurring Element: " + oddOccuring(arr));
+
+        // Print Power Set
+        System.out.println("Print Power Set:");
+        PowerSet("abc");
+    }
+}
