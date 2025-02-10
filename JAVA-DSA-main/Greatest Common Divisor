@@ -1,0 +1,27 @@
+import java.util.*;
+class Main {
+    public static int GCD(int a,int b){
+        while(a!=b){
+            if(a>b){
+                a=a-b;
+            }
+            else if(b>a){
+                b=b-a;
+            }
+        }
+        return a;
+    }
+    public static void main(String[] args) {
+        int a=36;
+        int b=42;
+        int res=Math.min(a,b);
+        while(res>0){
+            if((a%res==0)&&(b%res==0)){
+                break;
+            }
+            res--;
+        }
+        System.out.println("GCD IS :"+res);
+        System.out.println("GCD IS :"+ GCD(a,b));
+    }
+}
