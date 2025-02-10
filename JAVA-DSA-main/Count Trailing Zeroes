@@ -1,0 +1,54 @@
+class Main {
+    public static void main(String[] args) {
+        long fact=1;
+        long n=10;
+        for(long i=1;i<=n;i++){
+            fact*=i;
+        }
+        System.out.println("Factorial:"+fact);
+        long count=0;
+        while(fact%10==0){
+            count++;
+            fact/=10;
+        }
+        System.out.println("Trailing Zeroes:"+count);
+        long total=0;
+        for(long i=5;i<=n;i=i*5){
+            total+=(n/i);
+        }
+        System.out.println("Trailing Zeroes:"+total);
+
+    }
+}
+//M-2 Big Integer
+import java.math.BigInteger;
+
+class Main {
+    public static void main(String[] args) {
+        long n = 10; // Change to any value
+
+        // Compute factorial using BigInteger
+        BigInteger fact = factorial(n);
+        System.out.println("Factorial: " + fact);
+
+        // Compute trailing zeroes correctly using factor of 5 method
+        long trailingZeroes = countTrailingZeroes(n);
+        System.out.println("Trailing Zeroes: " + trailingZeroes);
+    }
+
+    public static BigInteger factorial(long n) {
+        BigInteger fact = BigInteger.ONE;
+        for (long i = 2; i <= n; i++) {
+            fact = fact.multiply(BigInteger.valueOf(i));
+        }
+        return fact;
+    }
+
+    public static long countTrailingZeroes(long n) {
+        long total = 0;
+        for (long i = 5; i <= n; i *= 5) {
+            total += (n / i);
+        }
+        return total;
+    }
+}
