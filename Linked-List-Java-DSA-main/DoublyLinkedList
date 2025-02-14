@@ -1,65 +1,67 @@
-class Node {
-    int data;
-    Node prev;
-    Node next;
-
-    Node(int data) {
-        this.data = data;
-    }
-}
-
 class Main {
-    public static void main(String[] args) {
-        // Creating the initial doubly linked list: 10 <-> 20 <-> 30 <-> 40
-        Node head = new Node(10);
-        Node temp1 = new Node(20);
-        Node temp2 = new Node(30);
-        Node temp3 = new Node(40);
+    static class Node {
+        int data;
+        Node prev;
+        Node next;
 
-        head.next = temp1;
-        temp1.prev = head;
-        temp1.next = temp2;
-        temp2.prev = temp1;
-        temp2.next = temp3;
-        temp3.prev = temp2;
-
-        // Insert a new node (5) at the beginning
-        Node temp = new Node(5);
-        temp.next = head;
-        head.prev = temp; // Update previous pointer of old head
-        head = temp; // Update head to the new node
-
-        // Insert a new node (50) at the end
-        Node end = new Node(50);
-        Node curr1 = head;
-        while (curr1.next != null) {
-            curr1 = curr1.next; // Move to last node
+        Node(int data) {
+            this.data = data;
         }
-        curr1.next = end; // Link last node to new end node
-        end.prev = curr1; // Link new end node back to last node
-
-        // Print the linked list in forward order
-        System.out.print("Forward: ");
-        printForward(head);
-
-        // Print the linked list in reverse order
-        System.out.print("Reverse: ");
-        printReverse(head);
-
-        // Reverse the doubly linked list
-        head = reverseDoublyLinkedList(head);
-
-        // Print the reversed linked list
-        System.out.print("Reversed Forward: ");
-        printForward(head);
-        
-        System.out.print("Reversed Reverse: ");
-        printReverse(head);
     }
 
-    // Method to print the linked list in forward direction
-    static void printForward(Node head) {
+    private Node head; // Head of the linked list
+
+    // Insert at the beginning
+    public void insertAtBeginning(int data) {
+        Node newNode = new Node(data);
+        if (head != null) {
+            newNode.next = head;
+            head.prev = newNode;
+        }
+        head = newNode;
+    }
+
+    // Insert at the end
+    public void insertAtEnd(int data) {
+        Node newNode = new Node(data);
+        if (head == null) {
+            head = newNode;
+            return;
+        }
         Node curr = head;
+        while (curr.next != null) {
+            curr = curr.next;
+        }
+        curr.next = newNode;
+        newNode.prev = curr;
+    }
+
+    // Delete head of the list
+    public void deleteHead() {
+        if (head == null) return;
+        head = head.next;
+        if (head != null) {
+            head.prev = null;
+        }
+    }
+
+    // Delete last node
+    public void deleteTail() {
+        if (head == null || head.next == null) {
+            head = null;
+            return;
+        }
+        Node curr = head;
+        while (curr.next.next != null) {
+            curr = curr.next;
+        }
+        curr.next = null;
+    }
+
+    // Print the linked list in forward order
+    public void printForward() {
+        Node curr = head;
+        System.out.print("Forward: ");
         while (curr != null) {
             System.out.print(curr.data + " -> ");
             curr = curr.next;
@@ -67,17 +69,14 @@ class Main {
         System.out.println("NULL");
     }
 
-    // Method to print the linked list in reverse direction
-    static void printReverse(Node head) {
+    // Print the linked list in reverse order
+    public void printReverse() {
         if (head == null) return;
-
-        // Move to the last node (tail)
         Node tail = head;
         while (tail.next != null) {
             tail = tail.next;
         }
-
-        // Print in reverse order
+        System.out.print("Reverse: ");
         while (tail != null) {
             System.out.print(tail.data + " -> ");
             tail = tail.prev;
@@ -85,21 +84,53 @@ class Main {
         System.out.println("NULL");
     }
 
-    // Method to reverse a doubly linked list
-    static Node reverseDoublyLinkedList(Node head) {
-        if (head == null) return null;
+    // Reverse the doubly linked list
+    public void reverseList() {
+        if (head == null || head.next == null) return;
 
         Node curr = head;
         Node prev = null;
-
+        
         while (curr != null) {
             prev = curr.prev;
             curr.prev = curr.next;
             curr.next = prev;
             curr = curr.prev; // Move to the next node in original order
         }
+        // Update head to the last processed node
+        head = prev.prev;
+    }
 
-        // The new head is the previous node of the last processed node
-        return prev.prev;
+    public static void main(String[] args) {
+        Main dll = new Main();
+
+        // Creating the initial doubly linked list: 10 <-> 20 <-> 30 <-> 40
+        dll.insertAtEnd(10);
+        dll.insertAtEnd(20);
+        dll.insertAtEnd(30);
+        dll.insertAtEnd(40);
+
+        // Delete head
+        dll.deleteHead();
+
+        // Delete last node
+        dll.deleteTail();
+
+        // Insert a new node (5) at the beginning
+        dll.insertAtBeginning(5);
+
+        // Insert a new node (50) at the end
+        dll.insertAtEnd(50);
+
+        // Print the linked list
+        dll.printForward();
+        dll.printReverse();
+
+        // Reverse the linked list
+        dll.reverseList();
+
+        // Print the reversed linked list
+        dll.printForward();
+        dll.printReverse();
     }
 }
