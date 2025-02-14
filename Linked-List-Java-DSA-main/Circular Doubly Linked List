@@ -1,0 +1,153 @@
+class Node {
+    int data;
+    Node prev, next;
+
+    Node(int data) {
+        this.data = data;
+    }
+}
+
+class Main {
+    // Print the circular doubly linked list in forward order
+    public static void printForward(Node head) {
+        if (head == null) return;
+
+        Node curr = head;
+        do {
+            System.out.print(curr.data + " ");
+            curr = curr.next;
+        } while (curr != head);
+        System.out.println();
+    }
+
+    // Print the circular doubly linked list in reverse order
+    public static void printReverse(Node head) {
+        if (head == null) return;
+
+        Node tail = head.prev;
+        Node curr = tail;
+        do {
+            System.out.print(curr.data + " ");
+            curr = curr.prev;
+        } while (curr != tail);
+        System.out.println();
+    }
+
+    // Insert a node at the beginning of the circular doubly linked list
+    public static Node insertAtHead(Node head, int data) {
+        Node temp = new Node(data);
+        if (head == null) { // If list is empty, create a single-node circular doubly list
+            temp.next = temp;
+            temp.prev = temp;
+            return temp;
+        }
+
+        Node tail = head.prev; // Get the last node
+        temp.next = head;
+        temp.prev = tail;
+        head.prev = temp;
+        tail.next = temp;
+
+        return temp; // Return new head
+    }
+
+    // Insert a node at the end of the circular doubly linked list
+    public static Node insertAtTail(Node head, int data) {
+        if (head == null) return insertAtHead(head, data);
+
+        Node temp = new Node(data);
+        Node tail = head.prev; // Get the last node
+
+        tail.next = temp;
+        temp.prev = tail;
+        temp.next = head;
+        head.prev = temp;
+
+        return head; // Head remains unchanged
+    }
+
+    // Delete the head node
+    public static Node deleteHead(Node head) {
+        if (head == null || head.next == head) return null; // If only one node, return null
+
+        Node tail = head.prev; // Get the last node
+        head = head.next;
+        head.prev = tail;
+        tail.next = head;
+
+        return head;
+    }
+
+    // Delete the last node
+    public static Node deleteTail(Node head) {
+        if (head == null || head.next == head) return null; // If only one node, return null
+
+        Node tail = head.prev;
+        Node newTail = tail.prev;
+
+        newTail.next = head;
+        head.prev = newTail;
+
+        return head;
+    }
+
+    // Reverse the circular doubly linked list
+    public static Node reverseList(Node head) {
+        if (head == null || head.next == head) return head; // No need to reverse if 0 or 1 node
+
+        Node curr = head;
+        Node temp = null;
+
+        do {
+            temp = curr.prev;
+            curr.prev = curr.next;
+            curr.next = temp;
+            curr = curr.prev; // Move to the original next node
+        } while (curr != head);
+
+        return temp.prev; // New head (was tail before reversal)
+    }
+
+    public static void main(String[] args) {
+        // Creating an initial circular doubly linked list: 10 <-> 20 <-> 30 <-> (back to head)
+        Node Head = new Node(10);
+        Node temp1 = new Node(20);
+        Node temp2 = new Node(30);
+
+        // Establish circular doubly links
+        Head.next = temp1;
+        temp1.prev = Head;
+        temp1.next = temp2;
+        temp2.prev = temp1;
+        temp2.next = Head;
+        Head.prev = temp2;
+
+        System.out.println("Original Circular Doubly Linked List:");
+        printForward(Head);
+
+        // Insert operations
+        Head = insertAtHead(Head, 5);
+        System.out.println("After inserting 5 at head:");
+        printForward(Head);
+
+        Head = insertAtTail(Head, 50);
+        System.out.println("After inserting 50 at tail:");
+        printForward(Head);
+
+        // Delete operations
+        Head = deleteHead(Head);
+        System.out.println("After deleting head:");
+        printForward(Head);
+
+        Head = deleteTail(Head);
+        System.out.println("After deleting tail:");
+        printForward(Head);
+
+        // Reverse and print
+        Head = reverseList(Head);
+        System.out.println("After reversing the list:");
+        printForward(Head);
+        System.out.println("Reverse order:");
+        printReverse(Head);
+    }
+}
