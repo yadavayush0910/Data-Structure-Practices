@@ -1,0 +1,113 @@
+class Node {
+    int data;
+    Node next;
+    
+    Node(int x) {
+        this.data = x;
+        this.next = null;
+    }
+}
+
+class Main {
+    // Method to print the linked list
+    static void printList(Node head) {
+        Node curr = head;
+        while (curr != null) {
+            System.out.print(curr.data + " -> ");
+            curr = curr.next;
+        }
+        System.out.println("NULL");
+    }
+
+    // Method to find the position of a node with a given key
+    static int findPos(Node head, int key) {
+        Node curr = head;
+        int pos = 1;
+        while (curr != null) {
+            if (curr.data == key) {
+                return pos;
+            }
+            pos++;
+            curr = curr.next;
+        }
+        return -1; // Key not found
+    }
+
+    // Method to delete the last node
+    static Node deleteLastNode(Node head) {
+        if (head == null || head.next == null) {
+            return null; // If list is empty or has only one node
+        }
+        Node curr = head;
+        while (curr.next.next != null) {
+            curr = curr.next;
+        }
+        curr.next = null;
+        return head;
+    }
+
+    // Method to insert a node at a given position
+    static Node insertAtPosition(Node head, int data, int pos) {
+        Node temp = new Node(data);
+        if (pos == 1) { // Insert at head
+            temp.next = head;
+            return temp;
+        }
+        Node curr = head;
+        for (int i = 1; i < pos - 1 && curr != null; i++) {
+            curr = curr.next;
+        }
+        if (curr == null) {
+            System.out.println("Position out of bounds");
+            return head;
+        }
+        temp.next = curr.next;
+        curr.next = temp;
+        return head;
+    }
+
+    public static void main(String[] args) {
+        // Creating the linked list
+        Node head = new Node(10);
+        head.next = new Node(20);
+        head.next.next = new Node(30);
+
+        // Adding a node at the beginning
+        Node newHead = new Node(5);
+        newHead.next = head;
+        head = newHead;
+
+        // Adding a node at the end
+        Node curr = head;
+        while (curr.next != null) {
+            curr = curr.next;
+        }
+        curr.next = new Node(40);
+
+        // Print initial list
+        System.out.println("Initial Linked List:");
+        printList(head);
+
+        // Delete last node
+        head = deleteLastNode(head);
+
+        // Print after deletion
+        System.out.println("\nAfter deleting the last node:");
+        printList(head);
+
+        // Insert at position 4
+        head = insertAtPosition(head, 15, 4);
+
+        // Print after insertion
+        System.out.println("\nAfter inserting 15 at position 4:");
+        printList(head);
+
+        // Find position of node with value 20
+        int pos = findPos(head, 20);
+        if (pos != -1) {
+            System.out.println("\nPosition of Node with value 20: " + pos);
+        } else {
+            System.out.println("\nNode with value 20 not found.");
+        }
+    }
+}
