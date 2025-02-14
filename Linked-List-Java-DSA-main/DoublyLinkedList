@@ -45,6 +45,16 @@ class Main {
         // Print the linked list in reverse order
         System.out.print("Reverse: ");
         printReverse(head);
+
+        // Reverse the doubly linked list
+        head = reverseDoublyLinkedList(head);
+
+        // Print the reversed linked list
+        System.out.print("Reversed Forward: ");
+        printForward(head);
+        
+        System.out.print("Reversed Reverse: ");
+        printReverse(head);
     }
 
     // Method to print the linked list in forward direction
@@ -73,5 +83,23 @@ class Main {
             tail = tail.prev;
         }
         System.out.println("NULL");
+    }
+
+    // Method to reverse a doubly linked list
+    static Node reverseDoublyLinkedList(Node head) {
+        if (head == null) return null;
+
+        Node curr = head;
+        Node prev = null;
+
+        while (curr != null) {
+            prev = curr.prev;
+            curr.prev = curr.next;
+            curr.next = prev;
+            curr = curr.prev; // Move to the next node in original order
+        }
+
+        // The new head is the previous node of the last processed node
+        return prev.prev;
     }
 }
