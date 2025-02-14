@@ -1,0 +1,139 @@
+class Node {
+    int data;
+    Node next;
+
+    Node(int data) {
+        this.data = data;
+    }
+}
+
+class Main {
+    // Print the circular linked list
+    public static void printList(Node head) {
+        if (head == null) return; // Handle empty list
+
+        Node curr = head;
+        do {
+            System.out.print(curr.data + " -> ");
+            curr = curr.next;
+        } while (curr != head);
+        System.out.println("(back to head)");
+    }
+
+    // Insert a node at the beginning of the circular linked list
+    public static Node insertAtHead(Node head, int data) {
+        Node temp = new Node(data);
+        if (head == null) {
+            temp.next = temp; // Circular reference
+            return temp;
+        }
+
+        Node tail = head;
+        while (tail.next != head) { // Find last node
+            tail = tail.next;
+        }
+
+        temp.next = head;
+        tail.next = temp; // Update last node's next pointer
+
+        return temp; // New head
+    }
+
+    // Insert a node at the end of the circular linked list
+    public static Node insertAtTail(Node head, int data) {
+        if (head == null) return insertAtHead(head, data);
+
+        Node temp = new Node(data);
+        Node tail = head;
+        while (tail.next != head) { // Find last node
+            tail = tail.next;
+        }
+
+        tail.next = temp;
+        temp.next = head; // Maintain circular structure
+
+        return head; // Head remains unchanged
+    }
+
+    // Delete the head node
+    public static Node deleteHead(Node head) {
+        if (head == null || head.next == head) return null; // If empty or single node
+
+        Node tail = head;
+        while (tail.next != head) { // Find last node
+            tail = tail.next;
+        }
+
+        head = head.next; // New head
+        tail.next = head; // Update last node's next pointer
+
+        return head;
+    }
+
+    // Delete the last node
+    public static Node deleteTail(Node head) {
+        if (head == null || head.next == head) return null; // If empty or single node
+
+        Node curr = head;
+        while (curr.next.next != head) { // Find second last node
+            curr = curr.next;
+        }
+
+        curr.next = head; // Update second last node's next pointer
+
+        return head;
+    }
+
+    // Reverse the circular linked list
+    public static Node reverseList(Node head) {
+        if (head == null || head.next == head) return head; // If empty or single node
+
+        Node prev = null, curr = head, next;
+        do {
+            next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        } while (curr != head);
+
+        // Adjust head and last node's next pointer
+        head.next = prev;
+        head = prev;
+
+        return head;
+    }
+
+    public static void main(String[] args) {
+        // Creating an initial circular singly linked list: 10 -> 20 -> 30 -> (back to head)
+        Node Head = new Node(10);
+        Head.next = new Node(20);
+        Head.next.next = new Node(30);
+        Head.next.next.next = Head; // Making it circular
+
+        System.out.println("Original Circular Linked List:");
+        printList(Head);
+
+        // Insert operations
+        Head = insertAtHead(Head, 5);
+        System.out.println("After inserting 5 at head:");
+        printList(Head);
+
+        Head = insertAtTail(Head, 50);
+        System.out.println("After inserting 50 at tail:");
+        printList(Head);
+
+        // Delete operations
+        Head = deleteHead(Head);
+        System.out.println("After deleting head:");
+        printList(Head);
+
+        Head = deleteTail(Head);
+        System.out.println("After deleting tail:");
+        printList(Head);
+
+        // Reverse and print
+        Head = reverseList(Head);
+        System.out.println("After reversing the list:");
+        printList(Head);
+    }
+}
