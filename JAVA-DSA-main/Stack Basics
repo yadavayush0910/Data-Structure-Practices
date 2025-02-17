@@ -1,0 +1,20 @@
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+      
+      Stack<Integer> s = new Stack<>();  // Creating a Stack of Integers
+      
+      s.push(10);  // Push 10 onto the stack
+      s.push(20);  // Push 20 onto the stack
+      s.push(30);  // Push 30 onto the stack
+
+      System.out.println(s.size());  // Print the current size of the stack (3)
+      System.out.println(s.peek());  // Print the top element without removing it (30)
+
+      while (!s.isEmpty()) {  // Loop to pop and print elements until the stack is empty
+        System.out.println(s.pop());  // Pop and print the top element
+      }
+     
+    }
+}
